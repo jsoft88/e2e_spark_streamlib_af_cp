@@ -14,7 +14,7 @@ More details about the generic library and this full run, can be found in the ar
 * At least 10gb memory free and 10gb disk space
 
 # Execution
-`bash run.sh <ip_of_host>`
+`bash run.sh`
 
 This will trigger the full run with defaults. You can inspect the run.sh file to see what the default values are, but here is a list:
 
@@ -25,8 +25,10 @@ This will trigger the full run with defaults. You can inspect the run.sh file to
 * Confluent platform version 6.0.0-post
 
 To override these parameters, invoke the function like this:
-`bash run.sh <ip_of_host> <scala_version> <lib_version> <jar_name> <jar_destination> <confluent_platform_version>
+`bash run.sh <scala_version> <lib_version> <jar_name> <jar_destination> <confluent_platform_version>
 
 Also it is worth mention the environment file in `env/airflow_env.json`, which is the file used to setup the environment variables in Airflow. Check if all the values there make sense for you, since if you changed any the docker/docker-compose files, things might also be broken there.
 
 To clean up the whole setup, run `bash stop_all.sh`.
+
+*Important:* The communication between the airflow orchestrator and the spark cluster is via a shared file. The default location for this file is `/tmp/spark_command_ready`, this is used in `run.sh`, `airflow_env.sh` and `stop_all.sh`. Remember this if you want to change the path.

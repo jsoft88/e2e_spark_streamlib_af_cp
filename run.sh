@@ -11,11 +11,11 @@ function error() {
     exit -1
 }
 
-[ -z $2 ] && export SCALA_VERSION="2.11" || export SCALA_VERSION=$1
-[ -z $3 ] && export LIB_VERSION="0.1" || export LIB_VERSION=$2
-[ -z $4 ] && export JAR_NAME="streaming-lib-assembly" || export JAR_NAME=$3
-[ -z $5 ] && export JAR_DEST="target/scala-$SCALA_VERSION/$JAR_NAME-$LIB_VERSION.jar" || export JAR_DEST=$4
-[ -z $6 ] && export CP_VERSION="6.0.0-post" || export CP_VERSION=$5
+[ -z $1 ] && export SCALA_VERSION="2.11" || export SCALA_VERSION=$1
+[ -z $2 ] && export LIB_VERSION="0.1" || export LIB_VERSION=$2
+[ -z $3 ] && export JAR_NAME="streaming-lib-assembly" || export JAR_NAME=$3
+[ -z $4 ] && export JAR_DEST="target/scala-$SCALA_VERSION/$JAR_NAME-$LIB_VERSION.jar" || export JAR_DEST=$4
+[ -z $5 ] && export CP_VERSION="6.0.0-post" || export CP_VERSION=$5
 
 echo "********************************************************************************************"
 echo "*                                                                                          "
@@ -55,22 +55,6 @@ git checkout $CP_VERSION
 cd cp-all-in-one
 
 docker-compose up -d
-
-# get kafka confluent config
-# cd ../../
-
-# [ -d examples ] || git clone https://github.com/confluentinc/examples.git
-
-# cd examples
-
-# git checkout $CP_VERSION
-
-# cd cp-quickstart
-
-# echo "Waiting 5 seconds for kafka services to become available..."
-
-# cp connectors/datagen_pageviews.config ../../airflow/resources
-# cp connectors/datagen_users.config ../../airflow/resources
 
 # add topic for output for streaming library
 docker exec -it broker sh -c "kafka-topics --create --replication-factor 1 --partitions 1 --topic top_pages --bootstrap-server localhost:9092"
