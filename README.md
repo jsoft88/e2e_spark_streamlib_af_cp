@@ -11,7 +11,7 @@ More details about the generic library and this full run, can be found in the ar
 # Requirements
 * Docker v19+
 * Git
-* At least 10gb memory free and 10gb disk space
+* At least 15gb memory free and 10gb disk space
 
 # Execution
 `bash run.sh`
