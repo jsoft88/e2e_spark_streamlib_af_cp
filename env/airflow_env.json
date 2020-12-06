@@ -1,0 +1,9 @@
+{
+    "CONTAINER_COMMS": "/tmp/spark_command_ready",
+    "POST_URL": "http://connect:8083/connectors",
+    "TOPIC_PAGEVIEWS_CONFIG": "datagen_pageviews.config",
+    "TOPIC_USERS_CONFIG": "datagen_users.config",
+    "SPARK_DOCKER_IMAGE": "spark_stream_lib:2.4.6",
+    "STREAM_LIB_JAR_PATH_IN_CONTAINER": "/home/bitnami/jars/streaming-lib-assembly-0.1.jar",
+    "STREAM_LIB_ARGS": "--kafka-writer-serialization avro --kafka-input-serialization json --schema-manager file-based --kafka-brokers broker:29092 --input-topics pageviews,users --topic-watermark-pair pageviews=timestamp,users=timestamp --topic-delay-pair pageviews=200,users=10 --output-topic top_pages --window-duration-seconds 10 --sliding-window-seconds 5 --write-interval-seconds 10 --reader-type kafka --writer-type kafka --transform-type top10ByGender --top-pages 10 --application challenge --topic-schematype-pair pageviews=pageviews,users=users"
+}

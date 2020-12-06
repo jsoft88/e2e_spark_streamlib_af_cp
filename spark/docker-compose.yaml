@@ -1,0 +1,47 @@
+version: '3.7'
+
+services:
+  spark:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    image: bitnami/spark:2.4.6
+    container_name: stream_lib_container_master
+    environment:
+      - SPARK_MODE=master
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+    ports:
+      - '40400:4040'
+      - '48080:8080'
+    networks:
+      - cp-all-in-one_default
+    volumes:
+      - '.:/home/bitnami/jars/:ro'
+
+  spark-worker:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile-worker
+    image: bitnami/spark:2.4.6
+    container_name: stream_lib_container_worker
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark:7077
+      - SPARK_WORKER_MEMORY=1G
+      - SPARK_WORKER_CORES=4
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+    ports:
+      - '48081:8081'
+    networks:
+      - cp-all-in-one_default
+
+networks:
+    cp-all-in-one_default:
+      driver: bridge
+      external: true
